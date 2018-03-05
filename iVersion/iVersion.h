@@ -134,6 +134,7 @@ typedef NS_ENUM(NSInteger, iVersionUpdatePriority)
 @property (nonatomic, assign) BOOL groupNotesByVersion;
 @property (nonatomic, assign) float checkPeriod;
 @property (nonatomic, assign) float remindPeriod;
+@property (nonatomic, assign) BOOL shouldShowAlert;
 
 //message text - you may wish to customise these
 @property (nonatomic, copy) NSString *inThisVersionTitle;

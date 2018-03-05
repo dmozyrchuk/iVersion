@@ -202,6 +202,7 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
         self.useAllAvailableLanguages = YES;
         self.onlyPromptIfMainWindowIsAvailable = YES;
         self.checkAtLaunch = YES;
+        self.shouldShowAlert = YES;
         self.checkPeriod = 0.0f;
         self.remindPeriod = 1.0f;
         
@@ -558,12 +559,14 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
                 {
                     title = [title stringByAppendingFormat:@" (%@)", mostRecentVersion];
                 }
-                
-                self.visibleRemoteAlert = [self showAlertWithTitle:title
-                                                           details:details
-                                                     defaultButton:self.downloadButtonLabel
-                                                      ignoreButton:[self showIgnoreButton]? self.ignoreButtonLabel: nil
-                                                      remindButton:[self showRemindButton]? self.remindButtonLabel: nil];
+                if (self.shouldShowAlert) {
+                    self.visibleRemoteAlert = [self showAlertWithTitle:title
+                                                               details:details
+                                                         defaultButton:self.downloadButtonLabel
+                                                          ignoreButton:[self showIgnoreButton]? self.ignoreButtonLabel: nil
+                                                          remindButton:[self showRemindButton]? self.remindButtonLabel: nil];
+                }
+
             }
         }
         else if ([self.delegate respondsToSelector:@selector(iVersionDidNotDetectNewVersion)])
@@ -970,7 +973,7 @@ static NSString *const iVersionMacAppStoreURLFormat = @"macappstore://itunes.app
             }
             
             //show details
-            if (showDetails && !self.visibleLocalAlert && !self.visibleRemoteAlert)
+            if (showDetails && !self.visibleLocalAlert && !self.visibleRemoteAlert && self.shouldShowAlert)
             {
                 self.visibleLocalAlert = [self showAlertWithTitle:self.inThisVersionTitle
                                                           details:self.versionDetails
